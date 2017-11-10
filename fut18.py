@@ -3,6 +3,11 @@
 import sys
 import re
 
+def write_specials(n):
+    for player_id in specials_set:
+        out = '&quot;'+player_id+'&quot;:0,'
+        n.write(out)
+
 if(len(sys.argv) != 3):
     print("ERROR: Se necesitan dos argumentos")
     print("Uso:",sys.argv[0],"archivo_fut18 N")
@@ -37,57 +42,33 @@ regex_id_line_12 = re.compile(r'^    <string name="c2JjX3BsYXllcnM=">.*')
 regex_id_line_13 = re.compile(r'^    <string name="c2F2ZWRfZHJhZnRz=">.*')
 regex_id_line_14 = re.compile(r'^    <string name="c2F2ZWRfc3F1YWRz=">.*')
 
+#special cards => just 0
+#id -2,-3 Pacybits SBC
+#-4 bechkam pacybits icon
+#-5 a -11 sbc premium
+#-12 xabi alonso pacybits icon
+#-13 umtiti
+
 id_set=[]
+specials_set=['-2','-3','-4','-5','-6','-7','-8','-9','-10','-11','-12','-13']
 
 #fill id_list with all players
 for line in f:
     id_set += set(re.findall(regex_id,line))
-    '''
-    if regex_id_line_1.match(line):
-        id_set += set(re.findall(regex_id,line))
-    elif regex_id_line_2.match(line):
-        id_set += set(re.findall(regex_id,line))
-    elif regex_id_line_3.match(line):
-        id_set += set(re.findall(regex_id,line))
-    elif regex_id_line_4.match(line):
-        id_set += set(re.findall(regex_id,line))
-    elif regex_id_line_5.match(line):
-        id_set += set(re.findall(regex_id,line))
-    elif regex_id_line_6.match(line):
-        id_set += set(re.findall(regex_id,line))
-    elif regex_id_line_7.match(line):
-        id_set += set(re.findall(regex_id,line))
-    elif regex_id_line_8.match(line):
-        id_set += set(re.findall(regex_id,line))
-    elif regex_id_line_9.match(line):
-        id_set += set(re.findall(regex_id,line))
-    elif regex_id_line_10.match(line):
-        id_set += set(re.findall(regex_id,line))
-    elif regex_id_line_11.match(line):
-        id_set += set(re.findall(regex_id,line))
-    elif regex_id_line_12.match(line):
-        id_set += set(re.findall(regex_id,line))
-    elif regex_id_line_13.match(line):
-        id_set += set(re.findall(regex_id,line))
-    elif regex_id_line_14.match(line):
-        id_set += set(re.findall(regex_id,line))
-    '''
-f.seek(0)
+
 i = 0
 id_set = set(id_set)
+
 #read file again and write
+f.seek(0)
 for line in f:
     if regex_players_line.match(line):
-        '''
-        out = re.sub(regex_player,r'&quot;\1&quot;:10,',line)
-        out = out[:-11] #delete end of string to introduce new players
-        n.write(out)
-        n.write(',')
-        '''
+        #write to player db
         n.write('<string name="bXlfaWRz">{')
+        write_specials(n)
         for player_id in id_set:
             i+=1
-            if(i == len(id_set)):
+            if(i == len(id_set)):#last player, dont write comma
                 out = '&quot;'+player_id+'&quot;:10'
             else:
                 out = '&quot;'+player_id+'&quot;:10,'
