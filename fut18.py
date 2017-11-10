@@ -3,10 +3,10 @@
 import sys
 import re
 
-def write_specials(n):
+def write_specials(file):
     for player_id in specials_set:
         out = '&quot;'+player_id+'&quot;:0,'
-        n.write(out)
+        file.write(out)
 
 if(len(sys.argv) != 3):
     print("ERROR: Se necesitan dos argumentos")
@@ -15,13 +15,23 @@ if(len(sys.argv) != 3):
     print("-N especifica el numero de veces que apareceran repetidos todos los jugadores")
     sys.exit(1)
 
+#check if is integer
 try:
-    f = open(sys.argv[1],'r')
-except FileNotFoundError:
-    print ("ERROR: El archivo",sys.argv[1],"no existe")
+    N = int(sys.argv[2])
+except ValueError:
+    print ("ERROR:'",sys.argv[2],"' no es un numero valido")
     sys.exit(1)
 
-n  = open('HACKED_com.pacybits.fut18draft_preferences.xml','w')
+#recover str
+N = sys.argv[2]
+
+try:
+    input_f = open(sys.argv[1],'r')
+except FileNotFoundError:
+    print ("ERROR: El archivo'",sys.argv[1]," 'no existe")
+    sys.exit(1)
+
+out_f  = open('HACKED_'+sys.argv[1],'w')
 
 regex_player = r'&quot;(\d+)&quot;:(\d+),'
 regex_id = r'id&quot;:&quot;(\d+)'
@@ -52,32 +62,32 @@ regex_id_line_14 = re.compile(r'^    <string name="c2F2ZWRfc3F1YWRz=">.*')
 id_set=[]
 specials_set=['-2','-3','-4','-5','-6','-7','-8','-9','-10','-11','-12','-13']
 
-#fill id_list with all players
-for line in f:
+#fill id_set with all players
+for line in input_f:
     id_set += set(re.findall(regex_id,line))
 
 i = 0
 id_set = set(id_set)
 
 #read file again and write
-f.seek(0)
-for line in f:
+input_f.seek(0)
+for line in input_f:
     if regex_players_line.match(line):
         #write to player db
-        n.write('<string name="bXlfaWRz">{')
-        write_specials(n)
+        out_f.write('<string name="bXlfaWRz">{')
+        write_specials(out_f)
         for player_id in id_set:
             i+=1
             if(i == len(id_set)):#last player, dont write comma
-                out = '&quot;'+player_id+'&quot;:10'
+                out = '&quot;'+player_id+'&quot;:'+N
             else:
-                out = '&quot;'+player_id+'&quot;:10,'
-            n.write(out)
+                out = '&quot;'+player_id+'&quot;:'+N+','
+            out_f.write(out)
 
-        n.write('}</string>\n')
+        out_f.write('}</string>\n')
 
     else:
-        n.write(line)
+        out_f.write(line)
 
-n.close()
-f.close()
+out_f.close()
+input_f.close()
