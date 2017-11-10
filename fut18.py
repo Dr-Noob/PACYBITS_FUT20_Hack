@@ -41,6 +41,8 @@ id_set=[]
 
 #fill id_list with all players
 for line in f:
+    id_set += set(re.findall(regex_id,line))
+    '''
     if regex_id_line_1.match(line):
         id_set += set(re.findall(regex_id,line))
     elif regex_id_line_2.match(line):
@@ -69,7 +71,7 @@ for line in f:
         id_set += set(re.findall(regex_id,line))
     elif regex_id_line_14.match(line):
         id_set += set(re.findall(regex_id,line))
-
+    '''
 f.seek(0)
 i = 0
 id_set = set(id_set)
