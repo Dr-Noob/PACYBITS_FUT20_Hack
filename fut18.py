@@ -58,9 +58,10 @@ regex_id_line_14 = re.compile(r'^    <string name="c2F2ZWRfc3F1YWRz=">.*')
 #-5 a -11 sbc premium
 #-12 xabi alonso pacybits icon
 #-13 umtiti
+#-14 -15 terry and huntelaar
 
 id_set=[]
-specials_set=['-2','-3','-4','-5','-6','-7','-8','-9','-10','-11','-12','-13']
+specials_set=['-2','-3','-4','-5','-6','-7','-8','-9','-10','-11','-12','-13','-14','-15']
 
 #fill id_set with all players
 for line in input_f:
