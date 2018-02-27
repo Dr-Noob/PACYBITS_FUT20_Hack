@@ -52,6 +52,20 @@ regex_id_line_12 = re.compile(r'^    <string name="c2JjX3BsYXllcnM=">.*')
 regex_id_line_13 = re.compile(r'^    <string name="c2F2ZWRfZHJhZnRz=">.*')
 regex_id_line_14 = re.compile(r'^    <string name="c2F2ZWRfc3F1YWRz=">.*')
 
+#Packs information
+#bXlfcGFja19pZHM
+#1 => Gold Pack
+#2 => Premium Gold Pack
+#3 => Rare Players Pack
+#4 => +81 Players Pack
+#5 => Special Pack
+#6 => Current TOTW
+#7 => Silver Pack
+#8 => Special Silver Pack
+#9 => Futmas Pack
+#10 => Gold Elite Pack
+#11 => Special+ Pack
+
 #special cards => just 0
 #id -2,-3 Pacybits SBC
 #-4 bechkam pacybits icon
@@ -61,9 +75,13 @@ regex_id_line_14 = re.compile(r'^    <string name="c2F2ZWRfc3F1YWRz=">.*')
 #-14 -15 terry and huntelaar
 #-17 a -21 buffon alli Pacybits SBC, Trezeguet SBC, Sterling Martial and Batshuayi PRO
 #-22 a -24 Cole SBC Premium, Scholes pacybits icon, juanfran pacybits SBC
+#-25 Hazart TOTY
+#-26 Figo pacybits icon
+#-27 Kimmich pro player
+#-28 Podolski sbc premium
 
 id_set=[]
-specials_set=['-2','-3','-4','-5','-6','-7','-8','-9','-10','-11','-12','-13','-14','-15','-16','-17','-18','-19','-20','-21','-22','-23','-24']
+specials_set=['-2','-3','-4','-5','-6','-7','-8','-9','-10','-11','-12','-13','-14','-15','-16','-17','-18','-19','-20','-21','-22','-23','-24','-25','-26','-27','-28']
 
 #fill id_set with all players
 for line in input_f:
