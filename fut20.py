@@ -6,6 +6,14 @@ import base64
 from urllib.request import urlopen
 import json
 
+def write_dbc_points(points):
+    out_str = '    <string name="ZGJjUG9pbnRzVGhpc1dlZWs=">'
+    id_str = str(points)
+    id_str = base64.b64encode(bytes(id_str, 'utf-8')).decode("utf-8")
+    out_str += id_str
+    out_str += '</string>\n'
+    out_f.write(out_str)  
+
 if(len(sys.argv) != 2):
     print("ERROR: Need one arg")
     print("Use:",sys.argv[0],"file")
@@ -35,7 +43,7 @@ except FileNotFoundError:
     players_f.seek(0)
 
 exclude_icons=[1041,166124,5419,1025,240,248146] # icons not in the game (prime)
-extra_cards=[-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,0]
+extra_cards=[-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,67266887020]
 id_set=set()
 out_str=""
 id_str=""
@@ -52,18 +60,27 @@ json_data = json.load(players_f)
 for player in json_data["LegendsPlayers"]:
     if player["id"] not in exclude_icons:
         id_set.add(player["id"])
-
+        
+for player in json_data["Players"]: # All gold players
+    if player["r"] >= 75:
+        id_set.add(player["id"])
+        
+for player in json_data["Players"]: # All silver players
+    if player["r"] >= 72 and player["r"] < 75 :
+        id_set.add(player["id"])         
+        
 for player in extra_cards:
     id_set.add(player)
-    
+        
 #for player in id_set:
 #    print(player)
 #sys.exit(0)
 
-regex_coins_line     = re.compile(r'^    <string name="Y29pbnM=">.*')
-regex_club_name_line = re.compile(r'^    <string name="Y2x1Yk5hbWU=">.*')
-regex_xp_line        = re.compile(r'^    <string name="eHA=">.*')
-regex_players_line   = re.compile(r'^    <string name="bXlJZHM=">.*')
+regex_coins_line      = re.compile(r'^    <string name="Y29pbnM=">.*')
+regex_club_name_line  = re.compile(r'^    <string name="Y2x1Yk5hbWU=">.*')
+regex_xp_line         = re.compile(r'^    <string name="eHA=">.*')
+regex_players_line    = re.compile(r'^    <string name="bXlJZHM=">.*')
+regex_dbc_points_line = re.compile(r'^    <string name="ZGJjUG9pbnRzVGhpc1dlZWs=">.*')
 
 for line in input_f:
     if regex_coins_line.match(line):
@@ -81,6 +98,9 @@ for line in input_f:
         out_str += id_str
         out_str += '</string>\n'
         out_f.write(out_str)
+        
+    elif regex_dbc_points_line.match(line):
+        write_dbc_points(15000)                  
         
     elif regex_xp_line.match(line):
         out_str = '    <string name="eHA=">'
@@ -109,4 +129,4 @@ for line in input_f:
         out_f.write(out_str) 
 
     else:
-        out_f.write(line)      
+        out_f.write(line)  
