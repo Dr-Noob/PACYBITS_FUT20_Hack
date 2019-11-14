@@ -1,6 +1,14 @@
-Consigue todos los jugadores que haya dentro del juego en las aplicaciones de ultimate team:
--https://play.google.com/store/apps/details?id=com.pacybits.fut18draft&hl=es
--https://play.google.com/store/apps/details?id=com.pacybits.fut18packopener&hl=es
-Ejecutar archivo python pasandole el archivo xml del juego y un numero(el numero de veces que estaran repetidos todos los jugadores)
-./fut18.py com.pacybits.fut18packopener_preferences.xml 100
-Pondra 100 veces todos los jugadores. Despues de ejecutar el archivo, copiar el xml de nuevo a donde estaba
+# PACYBITS FUT20 HACK (ANDROID ONLY)
+
+This repository contains code to hack the game, so you can obtain all the cards in the game,infinite coins and tokens
+
+### WIP!
+This is a wip, currently only supports adding all the icons
+
+### Usage
+You need to get the base xml file (com.pacybits.pacybitsfut20.preferences.xml). This file is located in android at `/data/data/com.pacybitsfut20/shared_prefs'. You will need root permissions to get and replace this file.
+
+### Files
+* hack.py: Needs a base xml file and creates a hacked one (with all the players)
+* decrypt.py: Decodes the base xml file (which is encoided in base64) to plain text
+* encrypt.py: Encodes a decoded xml file to base64 again
