@@ -35,7 +35,7 @@ except FileNotFoundError:
     players_f.seek(0)
 
 exclude_icons=[1041,166124,5419,1025,240,248146] # icons not in the game (prime)
-extra_cards=[-3]
+extra_cards=[-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,0]
 id_set=set()
 out_str=""
 id_str=""
@@ -60,14 +60,41 @@ for player in extra_cards:
 #    print(player)
 #sys.exit(0)
 
-regex_players_line = re.compile(r'^    <string name="bXlJZHM=">.*')
+regex_coins_line     = re.compile(r'^    <string name="Y29pbnM=">.*')
+regex_club_name_line = re.compile(r'^    <string name="Y2x1Yk5hbWU=">.*')
+regex_xp_line        = re.compile(r'^    <string name="eHA=">.*')
+regex_players_line   = re.compile(r'^    <string name="bXlJZHM=">.*')
 
 for line in input_f:
-    if regex_players_line.match(line):
+    if regex_coins_line.match(line):
+        out_str = '    <string name="Y29pbnM=">'
+        id_str = '100000000' # seems to be the max
+        id_str = base64.b64encode(bytes(id_str, 'utf-8')).decode("utf-8")
+        out_str += id_str
+        out_str += '</string>\n'
+        out_f.write(out_str)
+        
+    elif regex_club_name_line.match(line):
+        out_str = '    <string name="Y2x1Yk5hbWU=">'
+        id_str = 'HackedByDrNoob'
+        id_str = base64.b64encode(bytes(id_str, 'utf-8')).decode("utf-8")
+        out_str += id_str
+        out_str += '</string>\n'
+        out_f.write(out_str)
+        
+    elif regex_xp_line.match(line):
+        out_str = '    <string name="eHA=">'
+        id_str = '100'
+        id_str = base64.b64encode(bytes(id_str, 'utf-8')).decode("utf-8")
+        out_str += id_str
+        out_str += '</string>\n'
+        out_f.write(out_str)
+
+    elif regex_players_line.match(line):
         #write to player db
         
-        out_str += '    <string name="bXlJZHM=">'
-        id_str += '{'
+        out_str = '    <string name="bXlJZHM=">'
+        id_str = '{'
         for player_id in id_set:
             id_str += '"id'
             id_str += str(player_id)
