@@ -30,8 +30,9 @@ except FileNotFoundError:
     # url="https://www.easports.com/fifa/ultimate-team/web-app/content/B1BA185F-AD7C-4128-8A64-746DE4EC5A82/2018/fut/items/web/players_meta.json"
     url="https://www.easports.com/fifa/ultimate-team/web-app/content/20C1B296-B15C-4F72-AF0F-882F187EC2C9/2020/fut/items/web/players.json"
     response = urlopen(url)
-    players_f = open('players.json', 'ab')
+    players_f = open('players.json', 'a+b')
     players_f.write(response.read())
+    players_f.seek(0)
 
 exclude_icons=[1041,166124,5419,1025,240,248146] # icons not in the game (prime)
 extra_cards=[-3]
@@ -70,7 +71,7 @@ for line in input_f:
         for player_id in id_set:
             id_str += '"id'
             id_str += str(player_id)
-            id_str += '":50,'
+            id_str += '":80,'
             
         id_str = id_str[:-1]
         id_str += '}'
